@@ -75,5 +75,5 @@ Contribuições são bem-vindas! Para contribuir:
 
 ## Contato
 
-Para mais informações, entre em contato com ['jeandev003@gmail.com']
+Para mais informações, entre em contato com jeandev003@gmail.com
 
