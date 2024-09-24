@@ -104,7 +104,7 @@ const PostModal: React.FC<PostModalProps> = ({
               <textarea
                 value={newPost}
                 onChange={(e) => setNewPost(e.target.value)}
-                className="w-full dark:bg-transparent p-2 rounded-md focus:outline-none dark:text-white resize-none max-h-36 overflow-hidden"
+                className="w-full dark:bg-transparent p-2 rounded-md focus:outline-none dark:text-white text-gray-900 font-semibold resize-none max-h-36 overflow-hidden"
                 placeholder="Fala ai"
                 rows={6}
                 maxLength={300}

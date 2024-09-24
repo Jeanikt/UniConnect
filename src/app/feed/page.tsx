@@ -134,7 +134,7 @@ const Feed: React.FC = () => {
           posts.map((post) => (
             <div
               key={post.id}
-              className="bg-white dark:bg-gray-800 shadow rounded-lg mb-2 p-10"
+              className="bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-600 shadow rounded-xl mb-2 p-6"
             >
               <div className="flex items-start mb-2">
                 <User className="w-10 h-12 text-gray-500 dark:text-gray-400" />
@@ -183,16 +183,7 @@ const Feed: React.FC = () => {
                 >
                   <MoreHorizontal className="w-4 h-4 mr-1" />
                 </button>
-                {replyDropdownId === post.id && (
-                  <div className="absolute bg-white shadow-md rounded-md p-2 mt-1">
-                    <button className="block text-left w-full p-2 hover:bg-gray-100">
-                      Repostar
-                    </button>
-                    <button className="block text-left w-full p-2 hover:bg-gray-100">
-                      Citar Post
-                    </button>
-                  </div>
-                )}
+               
               </div>
             </div>
           ))

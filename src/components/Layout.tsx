@@ -8,16 +8,19 @@ import {
   Moon,
   Sun,
   Edit,
+  Settings, 
+  LogOut, 
 } from "lucide-react";
 import { useAppContext } from "../contexts/AppContext";
 import PostModal from "@/components/ui/PostModal";
+import { useRouter } from "next/navigation"; // Importa o useRouter para redirecionar
 
 interface LayoutProps {
   children: React.ReactNode;
   onPostCreated: (content: string) => void; // Função para lidar com a criação do post
 }
 
-const Dropdown = () => {
+const Dropdown = ({ onLogout }: { onLogout: () => void }) => {
   return (
     <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10">
       <Link
@@ -30,14 +33,14 @@ const Dropdown = () => {
         href="/settings"
         className="flex items-center px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
       >
-        <Bell className="w-5 h-5 mr-2" /> Configurações
+        <Settings className="w-5 h-5 mr-2" /> Configurações
       </Link>
-      <Link
-        href="/notifications"
-        className="flex items-center px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+      <button
+        onClick={onLogout}
+        className="flex items-center w-full px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
       >
-        <MessageCircle className="w-5 h-5 mr-2" /> Notificações
-      </Link>
+        <LogOut className="w-5 h-5 mr-2" /> Sair
+      </button>
     </div>
   );
 };
@@ -55,6 +58,7 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const router = useRouter(); // Inicializa o router
 
   const handleCreatePost = (content: string) => {
     onPostCreated(content); // Chama a função passada
@@ -62,6 +66,12 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
     setModalOpen(false);
     // Limpar a mensagem após um tempo
     setTimeout(() => setNotificationMessage(""), 3000);
+  };
+
+  const handleLogout = () => {
+    // Implementar a lógica de logout aqui, por exemplo, limpar o token do localStorage
+    localStorage.removeItem("userToken"); // Exemplo de remoção do token
+    router.push("/"); // Redireciona para a página inicial
   };
 
   return (
@@ -147,7 +157,7 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
               onClick={() => setDropdownOpen((prev) => !prev)}
             >
               <User className="w-6 h-6" />
-              {isDropdownOpen && <Dropdown />}
+              {isDropdownOpen && <Dropdown onLogout={handleLogout} />}
             </button>
           </div>
         </div>
