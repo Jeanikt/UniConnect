@@ -80,7 +80,24 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
             <span className="text-xl font-bold">UniConnect</span>
           </Link>
           <nav className="hidden md:flex items-center space-x-4">
-            {/* Links para o feed e outras páginas */}
+            <Link
+              href="/feed"
+              className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              Feed
+            </Link>
+            <Link
+              href="/communities"
+              className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              Comunidades
+            </Link>
+            <Link
+              href="/messages"
+              className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              Mensagens
+            </Link>
           </nav>
           <div className="relative flex items-center space-x-4">
             <button

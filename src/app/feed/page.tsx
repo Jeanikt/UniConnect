@@ -134,10 +134,10 @@ const Feed: React.FC = () => {
           posts.map((post) => (
             <div
               key={post.id}
-              className="bg-white dark:bg-gray-800 shadow rounded-lg mb-6 p-6"
+              className="bg-white dark:bg-gray-800 shadow rounded-lg mb-2 p-10"
             >
-              <div className="flex items-start mb-4">
-                <User className="w-10 h-10 text-gray-500 dark:text-gray-400" />
+              <div className="flex items-start mb-2">
+                <User className="w-10 h-12 text-gray-500 dark:text-gray-400" />
                 <div className="ml-3">
                   <div className="flex items-center">
                     <h3 className="font-semibold mr-2">{post.author}</h3>
@@ -145,7 +145,7 @@ const Feed: React.FC = () => {
                       {post.username}
                     </p>
                   </div>
-                  <p className="mb-4 break-words">{post.content}</p>
+                  <p className="mb-2 break-words">{post.content}</p>
                 </div>
               </div>
               <div className="flex justify-between text-md text-gray-500 dark:text-gray-400">
