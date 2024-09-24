@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UniConnect
 
-## Getting Started
+UniConnect é uma rede social projetada especialmente para universidades. O objetivo é proporcionar um espaço onde estudantes, professores e funcionários possam interagir, compartilhar ideias, e criar comunidades em torno de cursos e interesses comuns. 
 
-First, run the development server:
+## Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Feed de Publicações**: Os usuários podem criar posts que podem ser vistos por outros membros da comunidade.
+- **Troca de Mensagens**: Comunicação direta entre os usuários.
+- **Comunidades de Cursos**: Criação de grupos para cada curso onde os membros podem discutir tópicos relacionados.
+- **Perfil de Usuário**: Cada usuário pode criar um perfil com suas informações, foto e interesses.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**: React.js com Tailwind CSS
+- **Backend**: Node.js com Express
+- **Banco de Dados**: MongoDB (ou outra solução de banco de dados de sua escolha)
+- **Autenticação**: JWT (JSON Web Tokens) para autenticação de usuários
+- **Gerenciamento de Estado**: Redux (ou Context API)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Pré-requisitos
 
-## Learn More
+Antes de começar, você precisa ter o seguinte instalado em sua máquina:
 
-To learn more about Next.js, take a look at the following resources:
+- [Node.js](https://nodejs.org/) (v14 ou superior)
+- [MongoDB](https://www.mongodb.com/) ou qualquer outro banco de dados que você escolher.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Instalação
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
-## Deploy on Vercel
+1. **Clone o repositório**:
+   ```bash
+   git clone https://github.com/seuusuario/UniConnect.git
+   cd UniConnect
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Instale as dependências do frontend**:
+   ```bash
+    npm install
+# ou
+    yarn install
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Configure as variáveis de ambiente**:
+
+Crie um arquivo .env.local na raiz do projeto e adicione suas configurações, como a URL da API:
+
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+
+4. **Inicie o servidor de desenvolvimento**:
+   ```bash
+    npm run dev
+# ou
+    yarn dev
+
+Acesse a aplicação em http://localhost:3000.
+
+## Contribuição
+
+Contribuições são bem-vindas! Para contribuir:
+
+1. **Faça um fork do repositório.**
+
+2. **Crie uma nova branch para sua feature ou correção:**
+   ```bash
+    git checkout -b minha-feature
+
+3. **Faça suas alterações e commite**:
+   ```bash
+    git commit -m "Adiciona minha feature"
+
+4. **Envie sua branch para o repositório remoto**:
+   ```bash
+    git push origin minha-feature
+
+5. **Crie um Pull Request.**
+
+## Contato
+
+Para mais informações, entre em contato com [jeandev003@gmail.com]
+
