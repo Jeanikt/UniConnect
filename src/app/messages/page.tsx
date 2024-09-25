@@ -10,8 +10,17 @@ interface Conversation {
   name: string;
   lastMessage: string;
 }
-
+interface Post {
+  id: number;
+  author: string;
+  username: string;
+  content: string;
+  likes: number;
+  comments: number;
+  liked: boolean;
+}
 export default function Messages() {
+  const [posts, setPosts] = useState<Post[]>([]);
   const { language } = useAppContext();
   const [conversations] = useState<Conversation[]>([
     { id: 1, name: "John Doe", lastMessage: "Hey, how are you?" },
@@ -52,8 +61,21 @@ export default function Messages() {
     }
   };
 
+  const handleCreatePost = (content: string) => {
+    const post = {
+      id: posts.length + 1,
+      author: "Current User",
+      username: "@current_user",
+      content,
+      likes: 0,
+      comments: 0,
+      liked: false,
+    };
+    setPosts([post, ...posts]);
+  };
+
   return (
-    <Layout>
+    <Layout onPostCreated={handleCreatePost}>
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">{t.messages}</h1>
         <div className="flex h-[600px] bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">

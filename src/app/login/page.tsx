@@ -5,7 +5,7 @@ import { BookOpen, ArrowRight, Github } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -15,20 +15,53 @@ const fadeIn = {
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const router = useRouter(); 
+  const [notification, setNotification] = useState({
+    visible: false,
+    message: "",
+  });
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Lógica de redirecionamento para a página "use client"
-    if (email) {
-      console.log("Magic link solicitado para:", email);
-      router.push("/feed"); // Redirecionar para a página desejada
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/send-magic-link`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        setNotification({
+          visible: true,
+          message: `Email sent! We have sent an email to ${email} with a verification code.`,
+        });
+        setEmail(""); // Limpa o campo de email
+        setTimeout(() => {
+          setNotification({ visible: false, message: "" });
+          router.push("/feed"); // Redirecionar para a página desejada
+        }, 5000); // Ocultar notificação após 5 segundos
+      } else {
+        setNotification({
+          visible: true,
+          message: data.message || "Erro ao enviar email.",
+        });
+      }
+    } catch (err) {
+      // Alterar 'error' para 'err'
+      setNotification({ visible: true, message: "Erro ao enviar magic link." });
+      console.error(err); // Utilize a variável aqui para logar o erro, se necessário
     }
   };
 
   const handleGithubLogin = () => {
-    console.log("Login com GitHub solicitado");
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/github`;
   };
 
   const handleGoogleLogin = () => {
@@ -139,6 +172,23 @@ export default function Login() {
           </div>
         </div>
       </motion.div>
+
+      {notification.visible && (
+        <motion.div
+          className="fixed bottom-4 right-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-4 rounded shadow-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {notification.message}
+          <button
+            className="absolute top-1 right-1 text-gray-500 hover:text-gray-700"
+            onClick={() => setNotification({ visible: false, message: "" })}
+          >
+            &times;
+          </button>
+        </motion.div>
+      )}
 
       <motion.div
         className="mt-8 text-center text-sm text-gray-600 dark:text-gray-300"

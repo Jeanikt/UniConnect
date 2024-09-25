@@ -3,10 +3,20 @@
 import { useState } from "react";
 import Layout from "../../components/Layout";
 import { useAppContext } from "../../contexts/AppContext";
-import { Users, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+interface Post {
+  id: number;
+  author: string;
+  username: string;
+  content: string;
+  likes: number;
+  comments: number;
+  liked: boolean;
+}
 export default function Communities() {
+  const [posts, setPosts] = useState<Post[]>([]);
   const { language } = useAppContext();
   const [communities, setCommunities] = useState([
     { id: 1, name: "Computer Science 101", members: 120 },
@@ -50,9 +60,21 @@ export default function Communities() {
       setNewCommunity("");
     }
   };
+  const handleCreatePost = (content: string) => {
+    const post = {
+      id: posts.length + 1,
+      author: "Current User",
+      username: "@current_user",
+      content,
+      likes: 0,
+      comments: 0,
+      liked: false,
+    };
+    setPosts([post, ...posts]);
+  };
 
   return (
-    <Layout>
+    <Layout onPostCreated={handleCreatePost}>
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">{t.communities}</h1>
         <div className="grid md:grid-cols-2 gap-6">

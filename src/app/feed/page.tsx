@@ -134,18 +134,20 @@ const Feed: React.FC = () => {
           posts.map((post) => (
             <div
               key={post.id}
-              className="bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-600 shadow rounded-xl mb-2 p-6"
+              className="bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-600 shadow rounded-xl mb-2 p-6 max-w-full overflow-hidden max-h-96"
             >
               <div className="flex items-start mb-2">
                 <User className="w-10 h-12 text-gray-500 dark:text-gray-400" />
-                <div className="ml-3">
+                <div className="ml-3 max-w-full">
                   <div className="flex items-center">
                     <h3 className="font-semibold mr-2">{post.author}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {post.username}
                     </p>
                   </div>
-                  <p className="mb-2 break-words">{post.content}</p>
+                  <p className="mb-2 break-words overflow-hidden max-h-40 overflow-y-auto">
+                    {post.content}
+                  </p>
                 </div>
               </div>
               <div className="flex justify-between text-md text-gray-500 dark:text-gray-400">
@@ -183,7 +185,6 @@ const Feed: React.FC = () => {
                 >
                   <MoreHorizontal className="w-4 h-4 mr-1" />
                 </button>
-               
               </div>
             </div>
           ))
