@@ -1,14 +1,15 @@
 // pages/auth/callback.tsx
 
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const AuthCallback = () => {
   const router = useRouter();
+  const searchParams = useSearchParams(); // Obtenha os parâmetros da query string
 
   useEffect(() => {
     const verifyToken = async () => {
-      const { token } = router.query; // Extraia o token da query string
+      const token = searchParams.get("token"); // Extraia o token usando searchParams
 
       if (token) {
         const response = await fetch(
@@ -33,7 +34,7 @@ const AuthCallback = () => {
     };
 
     verifyToken();
-  }, [router]);
+  }, [router, searchParams]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100">
