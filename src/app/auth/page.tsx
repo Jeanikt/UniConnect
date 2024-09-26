@@ -1,9 +1,11 @@
-// pages/auth/callback.tsx
+// src/app/auth/page.tsx
 
-import { useEffect } from "react";
+"use client"; // Indica que este é um Client Component
+
+import React, { useEffect } from "react"; // Adicione a importação do React
 import { useRouter, useSearchParams } from "next/navigation";
 
-const AuthCallback = () => {
+const AuthCallbackContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams(); // Obtenha os parâmetros da query string
 
@@ -40,6 +42,15 @@ const AuthCallback = () => {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100">
       <p className="text-lg">Verificando o seu link...</p>
     </div>
+  );
+};
+
+// Componente principal que envolve o conteúdo com Suspense
+const AuthCallback = () => {
+  return (
+    <React.Suspense fallback={<p>Carregando...</p>}>
+      <AuthCallbackContent />
+    </React.Suspense>
   );
 };
 
