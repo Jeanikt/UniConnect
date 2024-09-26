@@ -24,39 +24,41 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/send-magic-link`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/send-magic-link`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      }
+    );
 
-      const data = await response.json();
+    console.log(response); // Verifique o status e o corpo da resposta
+    const data = await response.text(); // Tente usar .text() ao invés de .json() para debugar
+    console.log(data); // Verifique se está retornando um JSON válido
+
+    try {
+      const jsonData = JSON.parse(data); // Tente analisar manualmente o JSON
       if (response.ok) {
         setNotification({
           visible: true,
           message: `Email sent! We have sent an email to ${email} with a verification code.`,
         });
-        setEmail(""); // Limpa o campo de email
+        setEmail("");
         setTimeout(() => {
           setNotification({ visible: false, message: "" });
-          router.push("/feed"); // Redirecionar para a página desejada
-        }, 5000); // Ocultar notificação após 5 segundos
+          router.push("/feed");
+        }, 5000);
       } else {
         setNotification({
           visible: true,
-          message: data.message || "Erro ao enviar email.",
+          message: jsonData.message || "Erro ao enviar email.",
         });
       }
-    } catch (err) {
-      // Alterar 'error' para 'err'
-      setNotification({ visible: true, message: "Erro ao enviar magic link." });
-      console.error(err); // Utilize a variável aqui para logar o erro, se necessário
+    } catch (error) {
+      console.error("Erro ao parsear JSON:", error);
     }
   };
 
