@@ -1,5 +1,3 @@
-// src/app/auth/page.tsx
-
 "use client"; // Indica que este é um Client Component
 
 import React, { useEffect } from "react"; // Adicione a importação do React
@@ -15,7 +13,7 @@ const AuthCallbackContent = () => {
 
       if (token) {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/verify-magic-link`,
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-magic-link`,
           {
             method: "POST",
             headers: {
@@ -31,7 +29,10 @@ const AuthCallbackContent = () => {
         } else {
           // Lide com a falha na verificação (exibir mensagem ou redirecionar)
           console.error("Token inválido ou expirado.");
+          // Você pode redirecionar ou exibir uma mensagem para o usuário
         }
+      } else {
+        console.error("Token não encontrado.");
       }
     };
 
