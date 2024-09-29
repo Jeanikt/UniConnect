@@ -1,15 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
+import axios from "axios";
 import Layout from "../../components/Layout";
-import {
-  Heart,
-  MessageCircle,
-  Repeat,
-  Share,
-} from "lucide-react";
+import { Heart, MessageCircle, Repeat, Share } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 interface Post {
   id: number;
@@ -29,43 +26,27 @@ const Feed: React.FC = () => {
   const [notification, setNotification] = useState("");
   const [newPostContent, setNewPostContent] = useState("");
 
+  // Fetch posts from API
   useEffect(() => {
-    setTimeout(() => {
-      setPosts([
-        {
-          id: 1,
-          author: "John Doe",
-          username: "@john_doe",
-          content:
-            "Hello UniConnect! This is my first post on this amazing platform. I'm excited to connect with everyone here and share my thoughts and experiences. #FirstPost #UniConnect",
-          likes: 5,
-          comments: 2,
-          retweets: 1,
-          liked: false,
-          retweeted: false,
-        },
-        {
-          id: 2,
-          author: "Jane Smith",
-          username: "@jane_smith",
-          content:
-            "Just finished an incredible book on artificial intelligence and its impact on society. It's mind-blowing how fast technology is advancing! Has anyone else read any good tech books lately? #AI #TechReads",
-          likes: 8,
-          comments: 3,
-          retweets: 2,
-          liked: false,
-          retweeted: false,
-        },
-      ]);
-      setLoading(false);
-    }, 2000);
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("/api/posts"); // Ajuste o endpoint conforme necessário
+        setPosts(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
   }, []);
 
-  const handleCreatePost = (content: string) => {
+  const handleCreatePost = async (content: string) => {
     const newPost = {
       id: posts.length + 1,
-      author: "Current User",
-      username: "@current_user",
+      author: "Current User", // Pode ser alterado para pegar o autor atual
+      username: "@current_user", // Pode ser alterado para pegar o nome de usuário atual
       content,
       likes: 0,
       comments: 0,
@@ -116,108 +97,110 @@ const Feed: React.FC = () => {
   };
 
   return (
-    <Layout onPostCreated={handleCreatePost}>
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 mb-4">
-          <div className="flex items-start space-x-4">
-            <Avatar>
-              <AvatarImage src="/placeholder-avatar.jpg" alt="@username" />
-              <AvatarFallback>UN</AvatarFallback>
-            </Avatar>
-            <div className="flex-grow">
-              <Input
-                placeholder="What's happening?"
-                value={newPostContent}
-                onChange={(e) => setNewPostContent(e.target.value)}
-                className="mb-2"
-              />
-              <Button
-                onClick={() => handleCreatePost(newPostContent)}
-                disabled={!newPostContent.trim()}
-              >
-                Post
-              </Button>
+    <ProtectedRoute>
+      <Layout onPostCreated={handleCreatePost}>
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 mb-4">
+            <div className="flex items-start space-x-4">
+              <Avatar>
+                <AvatarImage src="/placeholder-avatar.jpg" alt="@username" />
+                <AvatarFallback>UN</AvatarFallback>
+              </Avatar>
+              <div className="flex-grow">
+                <Input
+                  placeholder="What's happening?"
+                  value={newPostContent}
+                  onChange={(e) => setNewPostContent(e.target.value)}
+                  className="mb-2"
+                />
+                <Button
+                  onClick={() => handleCreatePost(newPostContent)}
+                  disabled={!newPostContent.trim()}
+                >
+                  Post
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {loading ? (
-          <>
-            <SkeletonPost />
-            <SkeletonPost />
-          </>
-        ) : (
-          posts.map((post) => (
-            <div
-              key={post.id}
-              className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4"
-            >
-              <div className="flex items-start space-x-4">
-                <Avatar>
-                  <AvatarImage
-                    src="/placeholder-avatar.jpg"
-                    alt={post.author}
-                  />
-                  <AvatarFallback>{post.author[0]}</AvatarFallback>
-                </Avatar>
-                <div className="flex-grow">
-                  <div className="flex items-center space-x-2">
-                    <span className="font-bold">{post.author}</span>
-                    <span className="text-gray-500 dark:text-gray-400">
-                      {post.username}
-                    </span>
-                    <span className="text-gray-500 dark:text-gray-400">
-                      · 1h
-                    </span>
-                  </div>
-                  <p className="mt-1 mb-2">{post.content}</p>
-                  <div className="flex justify-between text-gray-500 dark:text-gray-400">
-                    <button
-                      className="flex items-center space-x-2 hover:text-blue-500"
-                      aria-label="Comment"
-                    >
-                      <MessageCircle className="w-5 h-5" />
-                      <span>{post.comments}</span>
-                    </button>
-                    <button
-                      className={`flex items-center space-x-2 hover:text-green-500 ${
-                        post.retweeted ? "text-green-500" : ""
-                      }`}
-                      onClick={() => handleRetweet(post.id)}
-                      aria-label="Retweet"
-                    >
-                      <Repeat className="w-5 h-5" />
-                      <span>{post.retweets}</span>
-                    </button>
-                    <button
-                      className={`flex items-center space-x-2 hover:text-red-500 ${
-                        post.liked ? "text-red-500" : ""
-                      }`}
-                      onClick={() => handleLike(post.id)}
-                      aria-label="Like"
-                    >
-                      <Heart className="w-5 h-5" />
-                      <span>{post.likes}</span>
-                    </button>
-                    <button
-                      className="flex items-center space-x-2 hover:text-blue-500"
-                      aria-label="Share"
-                    >
-                      <Share className="w-5 h-5" />
-                    </button>
+          {loading ? (
+            <>
+              <SkeletonPost />
+              <SkeletonPost />
+            </>
+          ) : (
+            posts.map((post) => (
+              <div
+                key={post.id}
+                className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4"
+              >
+                <div className="flex items-start space-x-4">
+                  <Avatar>
+                    <AvatarImage
+                      // src={get.avatar_url || "/placeholder-avatar.jpg"} // Substitua pelo URL do avatar real
+                      alt={post.author}
+                    />
+                    <AvatarFallback>{post.author[0]}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-grow">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-bold">{post.author}</span>
+                      <span className="text-gray-500 dark:text-gray-400">
+                        {post.username}
+                      </span>
+                      <span className="text-gray-500 dark:text-gray-400">
+                        · 1h
+                      </span>
+                    </div>
+                    <p className="mt-1 mb-2">{post.content}</p>
+                    <div className="flex justify-between text-gray-500 dark:text-gray-400">
+                      <button
+                        className="flex items-center space-x-2 hover:text-blue-500"
+                        aria-label="Comment"
+                      >
+                        <MessageCircle className="w-5 h-5" />
+                        <span>{post.comments}</span>
+                      </button>
+                      <button
+                        className={`flex items-center space-x-2 hover:text-green-500 ${
+                          post.retweeted ? "text-green-500" : ""
+                        }`}
+                        onClick={() => handleRetweet(post.id)}
+                        aria-label="Retweet"
+                      >
+                        <Repeat className="w-5 h-5" />
+                        <span>{post.retweets}</span>
+                      </button>
+                      <button
+                        className={`flex items-center space-x-2 hover:text-red-500 ${
+                          post.liked ? "text-red-500" : ""
+                        }`}
+                        onClick={() => handleLike(post.id)}
+                        aria-label="Like"
+                      >
+                        <Heart className="w-5 h-5" />
+                        <span>{post.likes}</span>
+                      </button>
+                      <button
+                        className="flex items-center space-x-2 hover:text-blue-500"
+                        aria-label="Share"
+                      >
+                        <Share className="w-5 h-5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
-        )}
-      </div>
-      {notification && (
-        <div className="fixed bottom-4 left-4 bg-blue-500 text-white rounded-lg p-4 shadow-md">
-          {notification}
+            ))
+          )}
         </div>
-      )}
-    </Layout>
+        {notification && (
+          <div className="fixed bottom-4 left-4 bg-blue-500 text-white rounded-lg p-4 shadow-md">
+            {notification}
+          </div>
+        )}
+      </Layout>
+    </ProtectedRoute>
   );
 };
 

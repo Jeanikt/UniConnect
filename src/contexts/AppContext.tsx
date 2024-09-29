@@ -1,5 +1,5 @@
 "use client";
-
+import ProtectedRoute from "@/components/ProtectedRoute";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 type Theme = "light" | "dark";
@@ -56,8 +56,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ theme, toggleTheme, language, setLanguage }}>
-      {children}
-    </AppContext.Provider>
+    <ProtectedRoute>
+      <AppContext.Provider
+        value={{ theme, toggleTheme, language, setLanguage }}
+      >
+        {children}
+      </AppContext.Provider>
+    </ProtectedRoute>
   );
 };
