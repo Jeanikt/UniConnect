@@ -12,10 +12,9 @@ UniConnect é uma rede social projetada especialmente para universidades. O obje
 ## Tecnologias Utilizadas
 
 - **Frontend**: React.js com Tailwind CSS
-- **Backend**: Node.js com Express
-- **Banco de Dados**: MongoDB (ou outra solução de banco de dados de sua escolha)
+- **Backend**: Node.js com Fastify
+- **Banco de Dados**: Supabase (ou outra solução de banco de dados de sua escolha)
 - **Autenticação**: JWT (JSON Web Tokens) para autenticação de usuários
-- **Gerenciamento de Estado**: Redux (ou Context API)
 
 ## Pré-requisitos
 
