@@ -1,5 +1,4 @@
 "use client";
-import ProtectedRoute from "@/components/ProtectedRoute";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 type Theme = "light" | "dark";
@@ -52,16 +51,16 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   }, [language]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "dark" ? "dark" : "light"));
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
   return (
-    <ProtectedRoute>
+    // <ProtectedRoute>
       <AppContext.Provider
         value={{ theme, toggleTheme, language, setLanguage }}
       >
         {children}
       </AppContext.Provider>
-    </ProtectedRoute>
+    // </ProtectedRoute>
   );
 };

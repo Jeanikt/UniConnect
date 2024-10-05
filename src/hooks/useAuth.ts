@@ -14,13 +14,24 @@ export function useAuth() {
   useEffect(() => {
     const verifyAuth = async () => {
       try {
+        // Pegar o token do localStorage ou cookies
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          setLoading(false);
+          setUser(null);
+          return;
+        }
+
+        // Verifica a autenticação enviando o token no cabeçalho
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/verify`,
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/verify?token=${token}`,
           {
             method: "GET",
-            credentials: "include",
             headers: {
               "Content-Type": "application/json",
+              // Você também pode incluir o token nos headers, caso o backend aceite assim
+              // 'Authorization': `Bearer ${token}`
             },
           }
         );
@@ -31,7 +42,7 @@ export function useAuth() {
 
         const data = await response.json();
 
-        if (data.authenticated) {
+        if (data.message === "Token is valid") {
           setUser(data.user);
         } else {
           setUser(null);

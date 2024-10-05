@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { BookOpen, ArrowRight } from "lucide-react";
@@ -27,34 +26,44 @@ const fadeIn = {
   },
 };
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
+    if (password !== confirmPassword) {
+      setError("As senhas não coincidem.");
+      return;
+    }
+
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, username, password }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
         router.push("/feed");
       } else {
-        setError(data.message || "Erro ao fazer login.");
+        setError(data.message || "Erro ao registrar.");
       }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setError(
-        "Ocorreu um erro ao tentar fazer login. Por favor, tente novamente."
+        "Ocorreu um erro ao tentar registrar. Por favor, tente novamente."
       );
     }
   };
@@ -63,8 +72,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-950 to-indigo-600 dark:from-gray-900 dark:to-indigo-900 p-4">
       <motion.div
         className="w-full max-w-md"
-        initial="hidden"
-        animate="visible"
+        initial="initial"
+        animate="animate"
         variants={fadeIn}
       >
         <Card className="w-full">
@@ -81,19 +90,31 @@ export default function LoginPage() {
               </motion.div>
             </div>
             <CardTitle className="text-2xl font-bold text-center">
-              Login
+              Registrar
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleRegister}>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="username">Email</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input
-                    id="Email"
-                    placeholder="Seu nome de usuário"
+                    id="email"
+                    type="email"
+                    placeholder="seu.email@exemplo.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    placeholder="Escolha um @username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     required
                   />
                 </div>
@@ -102,9 +123,20 @@ export default function LoginPage() {
                   <Input
                     id="password"
                     type="password"
-                    placeholder="Sua senha"
+                    placeholder="Escolha uma senha"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Confirme a Senha</Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Confirme sua senha"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
                 </div>
@@ -115,18 +147,15 @@ export default function LoginPage() {
                 </Alert>
               )}
               <Button type="submit" className="w-full mt-4">
-                Entrar <ArrowRight className="ml-2 w-4 h-4" />
+                Registrar <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </form>
           </CardContent>
-          <CardFooter className="flex flex-col space-y-2">
-            <Button variant="link" asChild className="w-full">
-              <Link href="/forgot-password">Esqueceu a senha?</Link>
-            </Button>
+          <CardFooter className="flex justify-center">
             <div className="text-sm text-center text-muted-foreground">
-              Não tem uma conta?{" "}
-              <Link href="/register" className="text-primary hover:underline">
-                Cadastre-se
+              Já tem uma conta?{" "}
+              <Link href="/login" className="text-primary hover:underline">
+                Faça login
               </Link>
             </div>
           </CardFooter>
