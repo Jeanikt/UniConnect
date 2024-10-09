@@ -91,7 +91,7 @@ export default function LoginPage() {
                   <Label htmlFor="username">Email</Label>
                   <Input
                     id="Email"
-                    placeholder="Seu nome de usuário"
+                    placeholder="Seu email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
