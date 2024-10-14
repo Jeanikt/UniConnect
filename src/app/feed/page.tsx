@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
-import { Heart, MessageCircle, Repeat, Share } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Heart, MessageCircle, Repeat, Share, Paperclip } from "lucide-react"; // Importando o ícone de clipe
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -165,25 +164,40 @@ const Feed: React.FC = () => {
   return (
     <Layout onPostCreated={handleCreatePost}>
       <div className="max-w-2xl mx-auto px-4">
-        <CardContent className="pt-6">
+        <CardContent className="pt-6 border rounded-lg shadow-md p-4">
           <div className="flex items-start space-x-4">
             <Avatar>
               <AvatarImage src={user.avatarUrl} alt={user.username} />
               <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex-grow">
-              <Input
-                placeholder="What's happening?"
-                value={newPostContent}
-                onChange={(e) => setNewPostContent(e.target.value)}
-                className="mb-4"
-              />
-              <Button
-                onClick={() => handleCreatePost(newPostContent)}
-                className="bg-blue-500 hover:bg-blue-600"
-              >
-                Publish
-              </Button>
+              <div className="relative">
+                <textarea
+                  placeholder="What's happening?!"
+                  value={newPostContent}
+                  onChange={(e) => setNewPostContent(e.target.value)}
+                  className="mb-4 w-full h-24 p-2 resize-none bg-transparent focus:outline-none"
+                  rows={4} // Define a altura inicial
+                  maxLength={300} // Limite de caracteres
+                  style={{ border: "none" }} // Remove a borda do textarea
+                />
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-500 dark:text-gray-400">
+                    {newPostContent.length}/300
+                  </span>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      onClick={() => handleCreatePost(newPostContent)}
+                      className="bg-blue-500 text-white hover:bg-blue-600"
+                    >
+                      Publish
+                    </Button>
+                    <Button className="flex items-center">
+                      <Paperclip className="w-5 h-5" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </CardContent>

@@ -15,22 +15,20 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white dark:bg-gray-800 border border-blue-500 rounded-lg shadow-lg p-4 w-10/12 md:w-1/4">
-        {" "}
-        {/* Alterado para w-10/12 e md:w-1/4 */}
+      <div className="bg-background dark:bg-gray-800 border border-blue-500 rounded-lg shadow-lg p-4 w-10/12 md:w-1/4">
         <h2 className="text-lg font-semibold">Descartar rascunho?</h2>
-        <p className="mt-2 text-sm">
+        <p className="mt-2 text-sm ">
           Você tem certeza de que gostaria de descartar este rascunho?
         </p>
         <div className="flex justify-end mt-4">
           <button
-            className="px-2 py-2 dark:bg-gray-700 bg-gray-300 rounded-md"
+            className="px-2 py-2  rounded-md "
             onClick={onCancel}
           >
             Cancelar
           </button>
           <button
-            className="px-2 py-2 bg-red-600 text-white rounded-md ml-2"
+            className="px-2 py-2 bg-red-600 text-white rounded-md ml-2 hover:bg-red-700 dark:hover:bg-red-500"
             onClick={onConfirm}
           >
             Descartar
