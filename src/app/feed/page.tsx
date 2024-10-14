@@ -6,6 +6,7 @@ import { Heart, MessageCircle, Repeat, Share } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CardContent } from "@/components/ui/card";
 
 interface Post {
   id: number;
@@ -121,7 +122,7 @@ const Feed: React.FC = () => {
   return (
     <Layout onPostCreated={handleCreatePost}>
       <div className="max-w-2xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 mb-4">
+        <CardContent className="pt-6">
           <div className="flex items-start space-x-4">
             <Avatar>
               <AvatarImage
@@ -135,7 +136,7 @@ const Feed: React.FC = () => {
                 placeholder="What's happening?"
                 value={newPostContent}
                 onChange={(e) => setNewPostContent(e.target.value)}
-                className="mb-2 text-gray-900 dark:text-white"
+                className="mb-2 "
               />
               <Button
                 onClick={() => handleCreatePost(newPostContent)}
@@ -146,13 +147,10 @@ const Feed: React.FC = () => {
               </Button>
             </div>
           </div>
-        </div>
+        </CardContent>
 
         {posts.map((post) => (
-          <div
-            key={post.id}
-            className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4"
-          >
+          <CardContent key={post.id} className="pt-6">
             <div className="flex items-start space-x-4">
               <Avatar>
                 <AvatarImage alt={post.author} />
@@ -160,7 +158,7 @@ const Feed: React.FC = () => {
               </Avatar>
               <div className="flex-grow">
                 <div className="flex items-center space-x-2">
-                  <span className="font-bold text-gray-900 dark:text-white">
+                  <span className="font-bold ">
                     {post.author}
                   </span>
                   <span className="text-gray-500 dark:text-gray-400">
@@ -168,7 +166,7 @@ const Feed: React.FC = () => {
                   </span>
                   <span className="text-gray-500 dark:text-gray-400">· 1h</span>
                 </div>
-                <p className="mt-1 mb-2 text-gray-900 dark:text-white">
+                <p className="mt-1 mb-2 ">
                   {post.content}
                 </p>
                 <div className="flex justify-between text-gray-500 dark:text-gray-400">
@@ -208,7 +206,7 @@ const Feed: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </CardContent>
         ))}
       </div>
       {notification && (
