@@ -131,4 +131,4 @@ const PostModal: React.FC<PostModalProps> = ({
   );
 };
 
-export default PostModal; 
+export default PostModal;

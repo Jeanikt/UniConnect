@@ -138,7 +138,7 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
       {/* Main Content */}
       <main className="flex-1 ml-20 xl:ml-64 mr-0 lg:mr-80">
         <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border p-4">
-          <h1 className="text-xl font-bold">Página Inicial</h1>
+          <h1 className="text-xl font-bold">Home</h1>
         </header>
         <div className="p-4">{children}</div>
       </main>
