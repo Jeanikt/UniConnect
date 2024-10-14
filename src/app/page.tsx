@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -58,7 +58,7 @@ export default function LandingPage() {
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
       />
 
-      <header className="bg-white bg-opacity-90 dark:bg-gray-800 dark:bg-opacity-90 shadow-sm backdrop-blur-md fixed top-0 left-0 right-0 z-10">
+      <header className="bg-white bg-opacity-90 dark:bg-gray-800 dark:bg-opacity-90 shadow-sm backdrop-blur-md fixed top-0 left-0 right-0 z-20">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           {/* Logo e título com animação */}
           <motion.div
@@ -78,7 +78,7 @@ export default function LandingPage() {
             <Link href="/login">
               <Button
                 variant="ghost"
-                className="text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
+                className="text-gray-800 "
               >
                 Entrar
               </Button>

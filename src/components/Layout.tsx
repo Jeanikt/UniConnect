@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -35,7 +37,7 @@ const NavItem = ({
 }) => (
   <Link
     href={href}
-    className="flex items-center p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+    className="flex items-center p-3 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors"
   >
     <Icon className="w-6 h-6 mr-4" />
     <span className="text-xl hidden xl:inline">{label}</span>
@@ -43,22 +45,22 @@ const NavItem = ({
 );
 
 const Dropdown = ({ onLogout }: { onLogout: () => void }) => (
-  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10">
+  <div className="absolute right-0 mt-2 w-48 bg-popover border border-border rounded-lg shadow-lg z-10">
     <Link
       href="/profile"
-      className="flex items-center px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+      className="flex items-center px-4 py-2 text-popover-foreground hover:bg-accent hover:text-accent-foreground"
     >
       <User className="w-5 h-5 mr-2" /> Meu Perfil
     </Link>
     <Link
       href="/settings"
-      className="flex items-center px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+      className="flex items-center px-4 py-2 text-popover-foreground hover:bg-accent hover:text-accent-foreground"
     >
       <Settings className="w-5 h-5 mr-2" /> Configurações
     </Link>
     <button
       onClick={onLogout}
-      className="flex items-center w-full px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
+      className="flex items-center w-full px-4 py-2 text-popover-foreground hover:bg-accent hover:text-accent-foreground text-left"
     >
       <LogOut className="w-5 h-5 mr-2" /> Sair
     </button>
@@ -72,9 +74,9 @@ const Notification = ({ message }: { message: string }) => (
 );
 
 const TrendingTopic = ({ topic, posts }: { topic: string; posts: string }) => (
-  <div className="p-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+  <div className="p-3 hover:bg-accent hover:text-accent-foreground transition-colors">
     <h3 className="font-bold">{topic}</h3>
-    <p className="text-sm text-gray-500">{posts} posts</p>
+    <p className="text-sm text-muted-foreground">{posts} posts</p>
   </div>
 );
 
@@ -102,9 +104,9 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
   };
 
   return (
-    <div className="flex min-h-screen bg-white dark:bg-black text-black dark:text-white">
+    <div className="flex min-h-screen bg-background text-foreground">
       {/* Left Sidebar */}
-      <aside className="w-20 xl:w-64 h-screen overflow-y-auto fixed left-0 top-0 border-r border-gray-200 dark:border-gray-800">
+      <aside className="w-20 xl:w-64 h-screen overflow-y-auto fixed left-0 top-0 border-r border-border">
         <div className="p-4">
           <Link
             href="/feed"
@@ -135,21 +137,21 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
 
       {/* Main Content */}
       <main className="flex-1 ml-20 xl:ml-64 mr-0 lg:mr-80">
-        <header className="sticky top-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 p-4">
+        <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border p-4">
           <h1 className="text-xl font-bold">Página Inicial</h1>
         </header>
         <div className="p-4">{children}</div>
       </main>
 
       {/* Right Sidebar */}
-      <aside className="w-80 h-screen overflow-y-auto fixed right-0 top-0 border-l border-gray-200 dark:border-gray-800 hidden lg:block">
+      <aside className="w-80 h-screen overflow-y-auto fixed right-0 top-0 border-l border-border hidden lg:block">
         <div className="p-4">
           <Input
             type="search"
             placeholder="Pesquisar no UniConnect"
             className="w-full mb-4"
           />
-          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 mb-4">
+          <div className="bg-card rounded-lg p-4 mb-4">
             <h2 className="font-bold text-xl mb-2">Tópicos em alta</h2>
             <TrendingTopic topic="Tecnologia" posts="10.5K" />
             <TrendingTopic topic="Educação" posts="5.2K" />
@@ -157,7 +159,7 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
           </div>
           <button
             onClick={toggleTheme}
-            className="flex items-center space-x-2 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+            className="flex items-center space-x-2 p-2 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors"
           >
             {theme === "dark" ? (
               <Sun className="w-5 h-5" />
@@ -168,7 +170,7 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
           </button>
           <div className="relative mt-4">
             <button
-              className="flex items-center space-x-2 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+              className="flex items-center space-x-2 p-2 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors"
               onClick={() => setDropdownOpen((prev) => !prev)}
             >
               <User className="w-5 h-5" />

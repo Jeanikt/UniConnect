@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Layout from "../../components/Layout";
 import { Heart, MessageCircle, Repeat, Share } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -27,49 +26,49 @@ interface User {
 }
 
 const Feed: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Usuário fictício
+  const [user, setUser] = useState<User>({
+    name: "Jean Carlo",
+    username: "@jean",
+    avatarUrl: "/placeholder-avatar.jpg",
+  });
+
+  // Posts fictícios
+  const [posts, setPosts] = useState<Post[]>([
+    {
+      id: 1,
+      author: "Jane Smith",
+      username: "@janesmith",
+      content: "Hello world! This is my first post.",
+      likes: 5,
+      comments: 2,
+      retweets: 1,
+      liked: false,
+      retweeted: false,
+    },
+    {
+      id: 2,
+      author: "Alice Johnson",
+      username: "@alicej",
+      content: "Just enjoying a sunny day at the park!",
+      likes: 15,
+      comments: 4,
+      retweets: 3,
+      liked: false,
+      retweeted: false,
+    },
+  ]);
+
   const [notification, setNotification] = useState("");
   const [newPostContent, setNewPostContent] = useState("");
-  const [user, setUser] = useState<User | null>(null);
 
-  // Fetch user data from API
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("/api/user"); // Endpoint para obter informações do usuário
-        setUser(response.data);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  // Fetch posts from API
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get("/api/posts"); // Ajuste o endpoint conforme necessário
-        setPosts(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-
-  const handleCreatePost = async (content: string) => {
+  const handleCreatePost = (content: string) => {
     if (!user) return;
 
     const newPost = {
       id: posts.length + 1,
-      author: user.name, // Autor agora será o usuário logado
-      username: user.username, // Nome de usuário atual
+      author: user.name,
+      username: user.username,
       content,
       likes: 0,
       comments: 0,
@@ -122,7 +121,6 @@ const Feed: React.FC = () => {
   return (
     <Layout onPostCreated={handleCreatePost}>
       <div className="max-w-2xl mx-auto">
-        {/* Post creation form */}
         <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 mb-4">
           <div className="flex items-start space-x-4">
             <Avatar>
@@ -137,11 +135,12 @@ const Feed: React.FC = () => {
                 placeholder="What's happening?"
                 value={newPostContent}
                 onChange={(e) => setNewPostContent(e.target.value)}
-                className="mb-2"
+                className="mb-2 text-gray-900 dark:text-white"
               />
               <Button
                 onClick={() => handleCreatePost(newPostContent)}
                 disabled={!newPostContent.trim()}
+                className="bg-blue-500 hover:bg-blue-600 text-white"
               >
                 Post
               </Button>
@@ -149,77 +148,68 @@ const Feed: React.FC = () => {
           </div>
         </div>
 
-        {/* Posts list */}
-        {loading ? (
-          <>
-            <SkeletonPost />
-            <SkeletonPost />
-          </>
-        ) : (
-          posts.map((post) => (
-            <div
-              key={post.id}
-              className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4"
-            >
-              <div className="flex items-start space-x-4">
-                <Avatar>
-                  <AvatarImage
-                    // src={get.avatar_url || "/placeholder-avatar.jpg"} // Substitua pelo URL do avatar real
-                    alt={post.author}
-                  />
-                  <AvatarFallback>{post.author[0]}</AvatarFallback>
-                </Avatar>
-                <div className="flex-grow">
-                  <div className="flex items-center space-x-2">
-                    <span className="font-bold">{post.author}</span>
-                    <span className="text-gray-500 dark:text-gray-400">
-                      {post.username}
-                    </span>
-                    <span className="text-gray-500 dark:text-gray-400">
-                      · 1h
-                    </span>
-                  </div>
-                  <p className="mt-1 mb-2">{post.content}</p>
-                  <div className="flex justify-between text-gray-500 dark:text-gray-400">
-                    <button
-                      className="flex items-center space-x-2 hover:text-blue-500"
-                      aria-label="Comment"
-                    >
-                      <MessageCircle className="w-5 h-5" />
-                      <span>{post.comments}</span>
-                    </button>
-                    <button
-                      className={`flex items-center space-x-2 hover:text-green-500 ${
-                        post.retweeted ? "text-green-500" : ""
-                      }`}
-                      onClick={() => handleRetweet(post.id)}
-                      aria-label="Retweet"
-                    >
-                      <Repeat className="w-5 h-5" />
-                      <span>{post.retweets}</span>
-                    </button>
-                    <button
-                      className={`flex items-center space-x-2 hover:text-red-500 ${
-                        post.liked ? "text-red-500" : ""
-                      }`}
-                      onClick={() => handleLike(post.id)}
-                      aria-label="Like"
-                    >
-                      <Heart className="w-5 h-5" />
-                      <span>{post.likes}</span>
-                    </button>
-                    <button
-                      className="flex items-center space-x-2 hover:text-blue-500"
-                      aria-label="Share"
-                    >
-                      <Share className="w-5 h-5" />
-                    </button>
-                  </div>
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4"
+          >
+            <div className="flex items-start space-x-4">
+              <Avatar>
+                <AvatarImage alt={post.author} />
+                <AvatarFallback>{post.author[0]}</AvatarFallback>
+              </Avatar>
+              <div className="flex-grow">
+                <div className="flex items-center space-x-2">
+                  <span className="font-bold text-gray-900 dark:text-white">
+                    {post.author}
+                  </span>
+                  <span className="text-gray-500 dark:text-gray-400">
+                    {post.username}
+                  </span>
+                  <span className="text-gray-500 dark:text-gray-400">· 1h</span>
+                </div>
+                <p className="mt-1 mb-2 text-gray-900 dark:text-white">
+                  {post.content}
+                </p>
+                <div className="flex justify-between text-gray-500 dark:text-gray-400">
+                  <button
+                    className="flex items-center space-x-2 hover:text-blue-500"
+                    aria-label="Comment"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    <span>{post.comments}</span>
+                  </button>
+                  <button
+                    className={`flex items-center space-x-2 hover:text-green-500 ${
+                      post.retweeted ? "text-green-500" : ""
+                    }`}
+                    onClick={() => handleRetweet(post.id)}
+                    aria-label="Retweet"
+                  >
+                    <Repeat className="w-5 h-5" />
+                    <span>{post.retweets}</span>
+                  </button>
+                  <button
+                    className={`flex items-center space-x-2 hover:text-red-500 ${
+                      post.liked ? "text-red-500" : ""
+                    }`}
+                    onClick={() => handleLike(post.id)}
+                    aria-label="Like"
+                  >
+                    <Heart className="w-5 h-5" />
+                    <span>{post.likes}</span>
+                  </button>
+                  <button
+                    className="flex items-center space-x-2 hover:text-blue-500"
+                    aria-label="Share"
+                  >
+                    <Share className="w-5 h-5" />
+                  </button>
                 </div>
               </div>
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
       {notification && (
         <div className="fixed bottom-4 left-4 bg-blue-500 text-white rounded-lg p-4 shadow-md">
@@ -229,21 +219,5 @@ const Feed: React.FC = () => {
     </Layout>
   );
 };
-
-function SkeletonPost() {
-  return (
-    <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 animate-pulse">
-      <div className="flex items-start space-x-4">
-        <div className="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-full" />
-        <div className="flex-grow">
-          <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4 mb-2" />
-          <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2 mb-2" />
-          <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-full mb-2" />
-          <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4" />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default Feed;

@@ -63,8 +63,8 @@ export default function Communities() {
   const handleCreatePost = (content: string) => {
     const post = {
       id: posts.length + 1,
-      author: "Current User",
-      username: "@current_user",
+      author: "Jean",
+      username: "@jean",
       content,
       likes: 0,
       comments: 0,
