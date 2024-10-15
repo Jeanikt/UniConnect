@@ -10,12 +10,12 @@ import {
   User,
   Moon,
   Sun,
-  Edit,
   Settings,
   LogOut,
   Home,
   Search,
   Hash,
+  Plus,
 } from "lucide-react";
 import { useAppContext } from "../contexts/AppContext";
 import PostModal from "@/components/ui/PostModal";
@@ -106,7 +106,7 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
   return (
     <div className="flex min-h-screen bg-background text-foreground">
       {/* Left Sidebar */}
-      <aside className="w-20 xl:w-64 h-screen overflow-y-auto fixed left-0 top-0 border-r border-border">
+      <aside className="w-20 xl:w-64 h-screen overflow-y-auto fixed left-0 top-0 border-r border-border hidden sm:block">
         <div className="p-4">
           <Link
             href="/feed"
@@ -125,18 +125,20 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
             <NavItem href="/messages" icon={MessageCircle} label="Mensagens" />
             <NavItem href="/profile" icon={User} label="Perfil" />
           </nav>
-          <button
-            onClick={() => setModalOpen(true)}
-            className="w-full mt-4 flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none"
-          >
-            <Edit className="w-5 h-5 mr-2 xl:mr-0" />
-            <span className="hidden xl:inline">Postar</span>
-          </button>
         </div>
       </aside>
 
+      {/* Mobile Footer */}
+      <footer className="fixed bottom-0 left-0 right-0 sm:hidden bg-background p-2 border-t border-border flex justify-around">
+        <NavItem href="/feed" icon={Home} label="" />
+        <NavItem href="/explore" icon={Hash} label="" />
+        <NavItem href="/communities" icon={Search} label="" />
+        <NavItem href="/notifications" icon={Bell} label="" />
+        <NavItem href="/profile" icon={User} label="" />
+      </footer>
+
       {/* Main Content */}
-      <main className="flex-1 ml-20 xl:ml-64 mr-0 lg:mr-80">
+      <main className="flex-1 ml-0 sm:ml-20 xl:ml-64 max-w-7xl mx-auto px-4">
         <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border p-4">
           <h1 className="text-xl font-bold">Home</h1>
         </header>
@@ -189,6 +191,14 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
       />
 
       {notificationMessage && <Notification message={notificationMessage} />}
+
+      <button
+        onClick={() => setModalOpen(true)}
+        className="sm:hidden fixed bottom-16 left-4 bg-blue-500 text-white p-4 rounded-full shadow-lg focus:outline-none"
+        aria-label="Criar novo post" // Add this line for better accessibility
+      >
+        <Plus className="w-6 h-6" />
+      </button>
     </div>
   );
 }

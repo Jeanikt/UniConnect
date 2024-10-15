@@ -16,6 +16,7 @@ interface Post {
   reposts: number;
   liked: boolean;
   retweeted: boolean;
+  timestamp: string; // Adicionando a propriedade timestamp
 }
 
 interface User {
@@ -42,6 +43,7 @@ const Feed: React.FC = () => {
       reposts: 1,
       liked: false,
       retweeted: false,
+      timestamp: "2h ago", // Exemplo de timestamp
     },
     {
       id: 2,
@@ -53,15 +55,16 @@ const Feed: React.FC = () => {
       reposts: 3,
       liked: false,
       retweeted: false,
+      timestamp: "3h ago",
     },
   ]);
 
   const [newPostContent, setNewPostContent] = useState("");
 
   const handleCreatePost = (content: string) => {
-    if (!user || !content.trim()) return; // Adiciona verificação para conteúdo vazio
+    if (!user || !content.trim()) return;
 
-    const newPost = {
+    const newPost: Post = {
       id: posts.length + 1,
       author: user.name,
       username: user.username,
@@ -71,6 +74,7 @@ const Feed: React.FC = () => {
       reposts: 0,
       liked: false,
       retweeted: false,
+      timestamp: "Just now", // Timestamp para novo post
     };
     setPosts([newPost, ...posts]);
     setNewPostContent("");
@@ -109,7 +113,8 @@ const Feed: React.FC = () => {
       <CardContent className="pt-6">
         <div className="flex items-start space-x-4">
           <Avatar>
-            <AvatarImage src={user.avatarUrl} alt={post.author} />
+            <AvatarImage src={user.avatarUrl} alt={post.author} />{" "}
+            {/* Correção aqui */}
             <AvatarFallback>{post.author[0]}</AvatarFallback>
           </Avatar>
           <div className="flex-grow">
@@ -118,9 +123,12 @@ const Feed: React.FC = () => {
               <span className="text-gray-500 dark:text-gray-400">
                 {post.username}
               </span>
+              <span className="text-gray-500 dark:text-gray-400">
+                · {post.timestamp} {/* Correção aqui */}
+              </span>
             </div>
             <p className="mt-1 mb-2">{post.content}</p>
-            <div className="flex flex-col md:flex-row justify-between text-gray-500 dark:text-gray-400">
+            <div className="flex justify-between text-gray-500 dark:text-gray-400">
               <button
                 className="flex items-center space-x-2 hover:text-blue-500"
                 aria-label="Comment"
@@ -129,21 +137,17 @@ const Feed: React.FC = () => {
                 <span>{post.comments}</span>
               </button>
               <button
-                className={`flex items-center space-x-2 ${
-                  post.retweeted ? "text-green-500" : "hover:text-green-500"
-                }`}
+                className="flex items-center space-x-2 hover:text-green-500"
                 aria-label="Repost"
-                onClick={() => handleRetweet(post.id)}
+                onClick={() => handleRetweet(post.id)} // Chamando a função de retweet
               >
                 <Repeat className="w-5 h-5" />
                 <span>{post.reposts}</span>
               </button>
               <button
-                className={`flex items-center space-x-2 ${
-                  post.liked ? "text-red-500" : "hover:text-red-500"
-                }`}
+                className="flex items-center space-x-2 hover:text-red-500"
                 aria-label="Like"
-                onClick={() => handleLike(post.id)}
+                onClick={() => handleLike(post.id)} // Chamando a função de like
               >
                 <Heart className="w-5 h-5" />
                 <span>{post.likes}</span>
@@ -177,9 +181,9 @@ const Feed: React.FC = () => {
                   value={newPostContent}
                   onChange={(e) => setNewPostContent(e.target.value)}
                   className="mb-4 w-full h-24 p-2 resize-none bg-transparent focus:outline-none"
-                  rows={4} // Define a altura inicial
-                  maxLength={300} // Limite de caracteres
-                  style={{ border: "none" }} // Remove a borda do textarea
+                  rows={4}
+                  maxLength={300}
+                  style={{ border: "none" }}
                 />
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
