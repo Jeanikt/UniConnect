@@ -58,7 +58,7 @@ export default function LandingPage() {
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
       />
 
-      <header className="bg-white bg-opacity-90 dark:bg-gray-800 dark:bg-opacity-90 shadow-sm backdrop-blur-md fixed top-0 left-0 right-0 z-20">
+      <header className="bg-[#121212] bg-opacity-90 dark:bg-gray-800 dark:bg-opacity-90 shadow-sm backdrop-blur-md fixed top-0 left-0 right-0 z-20">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           {/* Logo e título com animação */}
           <motion.div
@@ -68,7 +68,7 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
           >
             <BookOpen className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-            <span className="text-xl font-bold text-gray-800 dark:text-white">
+            <span className="text-xl font-bold text-white dark:text-white">
               UniConnect
             </span>
           </motion.div>
@@ -76,10 +76,7 @@ export default function LandingPage() {
           {/* Botões de navegação */}
           <div className="space-x-4">
             <Link href="/login">
-              <Button
-                variant="ghost"
-                className="text-gray-800 "
-              >
+              <Button variant="ghost" className="text-white">
                 Entrar
               </Button>
             </Link>
@@ -129,10 +126,10 @@ export default function LandingPage() {
           </motion.div>
         </section>
 
-        <section className="py-12 md:py-20 bg-white dark:bg-gray-800">
+        <section className="py-12 md:py-20 bg-[#121212] dark:bg-gray-800">
           <div className="container mx-auto px-4">
             <motion.h2
-              className="text-2xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-8 md:mb-12"
+              className="text-2xl md:text-4xl font-bold text-center text-white dark:text-white mb-8 md:mb-12"
               {...fadeIn}
             >
               Sobre o UniConnect
@@ -218,8 +215,8 @@ export default function LandingPage() {
         </motion.section>
       </main>
 
-      <footer className="bg-gray-100 dark:bg-gray-800 py-8 relative z-10">
-        <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-300">
+      <footer className="bg-[#121212] dark:bg-gray-800 py-8 relative z-10">
+        <div className="container mx-auto px-4 text-center text-white dark:text-gray-300">
           <p>
             &copy; {new Date().getFullYear()} UniConnect. Todos os direitos
             reservados.
