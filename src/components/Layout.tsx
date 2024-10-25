@@ -138,15 +138,17 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
       </footer>
 
       {/* Main Content */}
-      <main className="flex-1 ml-0 sm:ml-20 xl:ml-64 max-w-7xl mx-auto px-4">
-        <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border p-4">
-          <h1 className="text-xl font-bold">Home</h1>
-        </header>
-        <div className="p-4">{children}</div>
-      </main>
+      <div className="flex justify-center flex-1">
+        <main className="flex-1 sm:ml-20 xl:ml-64 lg:mr-80 max-w-2xl w-full px-4">
+          <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border p-4">
+            <h1 className="text-xl font-bold">Home</h1>
+          </header>
+          <div className="p-4">{children}</div>
+        </main>
+      </div>
 
       {/* Right Sidebar */}
-      <aside className="w-80 h-screen overflow-y-auto fixed right-0 top-0 border-l border-border hidden lg:block">
+      <aside className="w-80 h-screen overflow-y-auto fixed right-0 top-0 border-l border-border hidden lg:block z-10">
         <div className="p-4">
           <Input
             type="search"
@@ -194,10 +196,10 @@ export default function Layout({ children, onPostCreated }: LayoutProps) {
 
       <button
         onClick={() => setModalOpen(true)}
-        className="sm:hidden fixed bottom-16 left-4 bg-blue-500 text-white p-4 rounded-full shadow-lg focus:outline-none"
-        aria-label="Criar novo post" // Add this line for better accessibility
+        className="sm:hidden fixed bottom-20 left-4 bg-blue-500 text-white p-4 rounded-full shadow-lg focus:outline-none"
+        aria-label="Criar novo post"
       >
-        <Plus className="w-6 h-6" />
+        <Plus className="w-4 h-4" />
       </button>
     </div>
   );

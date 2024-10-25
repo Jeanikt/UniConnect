@@ -65,7 +65,7 @@ export default function LandingPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <BookOpen className="w-8 h-8 text-white" />
+            <BookOpen className="w-8 h-8 text-blue-600" />
             <span className="text-xl font-bold text-white">UniConnect</span>
           </motion.div>
 
