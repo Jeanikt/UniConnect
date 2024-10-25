@@ -11,18 +11,20 @@ export async function GET(request: NextRequest) {
   const next = searchParams.get("next") ?? "/";
 
   if (token_hash && type) {
-    const supabase = createClient();
+    // Await the createClient call to get the Supabase client instance
+    const supabase = await createClient(); // Await here
 
     const { error } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     });
+
     if (!error) {
-      // redirect user to specified redirect URL or root of app
-      redirect(next);
+      // Redirect user to specified redirect URL or root of app
+      return redirect(next);
     }
   }
 
-  // redirect the user to an error page with some instructions
-  redirect("/error");
+  // Redirect the user to an error page with some instructions
+  return redirect("/error");
 }

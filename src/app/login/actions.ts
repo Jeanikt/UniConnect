@@ -6,10 +6,10 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
 export async function login(formData: FormData) {
-  const supabase = createClient();
+  // Await the createClient call to get the Supabase client instance
+  const supabase = await createClient(); // Await here
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
+  // Type-casting for convenience; validate your inputs in practice
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
@@ -26,10 +26,10 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-  const supabase = createClient();
+  // Await the createClient call to get the Supabase client instance
+  const supabase = await createClient(); // Await here
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
+  // Type-casting for convenience; validate your inputs in practice
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
