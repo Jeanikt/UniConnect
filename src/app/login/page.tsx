@@ -1,21 +1,15 @@
 "use client";
-import { login } from "./actions";
-import { BookOpen, ArrowRight } from "lucide-react";
+
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { BookOpen, Github } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Onest } from "next/font/google"; // Importando a fonte Onest
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Onest } from "next/font/google";
 
-const onest = Onest({ subsets: ["latin"] }); // Inicializando a fonte
+const onest = Onest({ subsets: ["latin"] });
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -27,17 +21,11 @@ const fadeIn = {
 };
 
 export default function LoginPage() {
-  const handleLogin = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Previne o envio padrão do formulário
-    const form = event.currentTarget.form; // Captura o formulário
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/feed";
 
-    if (form) {
-      // Verifica se o formulário não é nulo
-      const formData = new FormData(form); // Captura os dados do formulário
-      await login(formData); // Chama a função de login com os dados do formulário
-    } else {
-      console.error("Formulário não encontrado.");
-    }
+  const handleGitHubLogin = () => {
+    signIn("github", { callbackUrl });
   };
 
   return (
@@ -64,73 +52,21 @@ export default function LoginPage() {
               </motion.div>
             </div>
             <CardTitle className="text-2xl font-bold text-center">
-              Bem-vindo de volta!
+              Bem-vindo ao UniConnect
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <form className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Digite seu email"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Senha</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  placeholder="Digite sua senha"
-                />
-              </div>
-
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <input
-                    id="remember"
-                    name="remember"
-                    type="checkbox"
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" // Checkbox com bordas arredondadas
-                    title="Remember me" // Adiciona o atributo title para acessibilidade
-                  />
-                  <Label
-                    htmlFor="remember"
-                    className="ml-2 block text-sm text-gray-900"
-                  >
-                    Lembrar de mim
-                  </Label>
-                </div>
-                <Link
-                  href="#"
-                  className="text-sm text-blue -600 hover:underline"
-                >
-                  Esqueceu sua senha?
-                </Link>
-              </div>
-
-              <Button
-                type="submit"
-                onClick={handleLogin}
-                className="w-full mt-4"
-              >
-                Entrar <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </form>
+          <CardContent className="flex flex-col items-center">
+            <p className="text-center mb-6">
+              Faça login com sua conta do GitHub para começar a conectar-se com
+              outros estudantes.
+            </p>
+            <Button
+              onClick={handleGitHubLogin}
+              className="w-full bg-gray-800 hover:bg-gray-700"
+            >
+              <Github className="mr-2 h-5 w-5" /> Entrar com GitHub
+            </Button>
           </CardContent>
-          <CardFooter className="flex justify-center">
-            <div className="text-sm text-center text-muted-foreground">
-              Não tem uma conta?{" "}
-              <Link href="/signup" className="text-primary hover:underline">
-                Cadastre-se
-              </Link>
-            </div>
-          </CardFooter>
         </Card>
       </motion.div>
     </div>
